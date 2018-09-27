@@ -17,7 +17,6 @@ public class JournalApp {
         String name = sc.nextLine();
         System.out.println("Do you want to add to the journal?");
         String inputPrompt = sc.nextLine();
-        //System.out.println(name);
         while (inputPrompt.equals("yes")){
             try {
                 FileWriter fw = new FileWriter(name);
