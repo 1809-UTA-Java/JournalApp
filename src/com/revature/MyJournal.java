@@ -5,22 +5,23 @@ import java.io.*;
 
 class MyJournal {
     public static void main (String[] args) {
-       int option = 0;
+       String option = new String();
        
-       option = optionMenu();
-
-        switch (option) {
-             case 1:
-                 String[] input = writeFileMenu();
-                 writeNewFile(input[0], input[1]);
-                 break;
-             case 2:
-                 readFile(readFileMenu());
-                 break;
-             default:
-                 break;
- 
-        }  
+       do {
+           option = optionMenu();
+            switch (option) {
+                case "1":
+                    String[] input = writeFileMenu();
+                    writeNewFile(input[0], input[1]);
+                    break;
+                case "2":
+                    readFile(readFileMenu());
+                    break;
+                default:
+                    break;
+     
+            } 
+        } while (!option.contentEquals("-1"));
     }
 
     static boolean readFile(String fileName) {
@@ -73,17 +74,24 @@ class MyJournal {
         return response;
     }
 
-    static int optionMenu() {
+    static String optionMenu() {
         Scanner s = new Scanner(System.in);
-        int option;
+        String option;
 
         toConsole("*** OPTION MENU ***");
         toConsole("(1) Write text to a file.");
         toConsole("(2) Open & read from an existing file.");
         toConsole("[Enter -1 to exit application]");
         toConsole("Enter operation number you would like to do: ");
-        option = s.nextInt();
-        return option;
+        
+        do {
+            option = s.nextLine();
+            
+            if (option.contentEquals("-1") || option.contentEquals("1") || option.contentEquals("2")) {
+                s.close();
+                return option;
+            }
+        } while (1);
     }
 
     static void toConsole(String message) {
