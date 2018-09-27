@@ -1,5 +1,6 @@
 # JournalApp
 Thursday Week 1 Challenge
+
 Demonstrate your understanding of Java byte and character streams by creating a simple program.
 
 Use any `java.io` or `java.util` APIs such as `Scanner` and `FileWriter` to prompt a user for a filename. Then either:
