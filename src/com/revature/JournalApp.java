@@ -40,8 +40,10 @@ public class JournalApp {
         } else if(sCommand.equals("append")) {
             try(FileWriter fw = new FileWriter(sFileName, true)) {
                 System.out.println("Please enter in a single line all that you wish to append to the file.");
-                String sAppend = sc.nextLine();
-                fw.write(sAppend);
+                Scanner sc2 = new Scanner(System.in);
+                String sAppend = sc2.nextLine();
+                fw.append(sAppend);
+                sc2.close();
             } catch(IOException e) {
                 e.printStackTrace();
             }
