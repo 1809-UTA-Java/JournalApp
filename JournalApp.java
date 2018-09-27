@@ -35,7 +35,7 @@ public class JournalApp {
             while ((i = fr.read()) != -1) {
                 System.out.print((char) i);
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex){
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
