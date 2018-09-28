@@ -53,7 +53,7 @@ public class JournalApp {
 		String serializeFile = "serial";
 		writeObject(serializeFile, journalEntries);
 
-		//TODO: add and append to file with serialization object.
+		//TODO: Learn to append instead of overwrite serial file object.
 
 		readObject(serializeFile);
 
