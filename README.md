@@ -1,9 +1,10 @@
-# JournalApp
-Thursday Week 1 Challenge
+# Directions
+To compile and run the program you can use the provided sh script.
+>./buildRun
 
-Demonstrate your understanding of Java byte and character streams by creating a simple program.
+In the event of insufficient file permissions, you will need to add
+execution permission to the sh script.
+>chmod +x buildRun
 
-Use any `java.io` or `java.util` APIs such as `Scanner` and `FileWriter` to prompt a user for a filename. Then either:
-1. Read text from the user to save to that file.
-2. Open and read an existing file by that name.
-3. (Optional) Write to files with a byte stream or serialize an object.
+##ToDo  
+Make some objects and reorganize program
