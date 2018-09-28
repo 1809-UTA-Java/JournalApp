@@ -20,25 +20,48 @@ public class JournalApp {
 
 		Scanner scan = new Scanner(System.in);
 
+		
 		String anEntry = makeAnEntry(scan);
 		
 
-
+		
 		System.out.println("Do you want to save this entry? Type y/n.");
 		String saveAns = scan.next();
 
 		if (saveAns.equals("y") || saveAns.equals("Y")) {
 			writeFile(filename, anEntry);
 			System.out.println("Entry has been saved to <" + filename + ">. Thank you.");
+			//scan.close();
+			optionReadFile(filename, scan);
 		}
 		else if (saveAns.equals("n") || saveAns.equals("N")) {
-			System.out.println("Fine. Entry will be discarded. Goodbye.");
+			System.out.println("Fine. Entry will be discarded.");
+			scan.close();
+		}
+		else {
+			System.out.println("I do not understand. Goodbye.");
+			scan.close();
+		}
+		
+	}
+
+	public static void optionReadFile(String filename, Scanner readScan) {
+		//Scanner readScan = new Scanner(System.in);
+		System.out.println("Do you want to read your entry? y/n.");
+		String readAns = readScan.next();
+
+		if (readAns.equals("y") || readAns.equals("Y")) {
+			//System.out.println("Okay One second.");
+			System.out.println(readFile(filename));
+		}
+		else if (readAns.equals("n") || readAns.equals("N")) {
+			System.out.println("Fine. Goodbye.");
 		}
 		else {
 			System.out.println("I do not understand. Goodbye.");
 		}
-		scan.close();
-		
+		readScan.close();
+
 	}
 
 	public static String makeAnEntry(Scanner sc) {
@@ -50,7 +73,6 @@ public class JournalApp {
 		System.out.println(entry);
 
 
-		//sc.close();
 		return entry;
 	}
 
@@ -61,31 +83,24 @@ public class JournalApp {
 			} catch(IOException io) {
 				io.printStackTrace();
 			}
-	
-			// try { FileReader fr = new FileReader(myFile);
-			// 	int i;
-			// 	while ((i = fr.read()) != -1) {
-			// 		System.out.println((char) i);
-			// 	}
-			// 	fr.close(); } catch(FileNotFoundException ff) {
-			// 		ff.printStackTrace();
-			// 	} catch(IOException io2) {
-			// 		io2.printStackTrace();
-			// 	} 
 	}
 
-	public static void readFile(String myFile) {
+	public static String readFile(String myFile) {
+
+		StringBuilder stringEntry = new StringBuilder(); 		
+
 		try { FileReader fr = new FileReader(myFile);
 			int i;
 			while ((i = fr.read()) != -1) {
-				System.out.println((char) i);
+				//System.out.println((char) i);
+				stringEntry.append((char)i); 
 			}
 			fr.close(); } catch(FileNotFoundException ff) {
 				ff.printStackTrace();
 			} catch(IOException io2) {
 				io2.printStackTrace();
 			} 
-
+		return stringEntry.toString();
 	}
 
 }
