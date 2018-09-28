@@ -19,15 +19,16 @@ public class JournalApp {
         String inputPrompt = sc.nextLine();
         while (inputPrompt.equals("yes")){
             try {
-                FileWriter fw = new FileWriter(name);
+                FileWriter fw = new FileWriter(name, true);
                 System.out.println("What would you like to add?");
                 String userInput = sc.nextLine();
-                fw.append(userInput);
+                fw.write(userInput);
+                fw.append(System. getProperty("line.separator"));
                 fw.close(); 
             } catch (IOException ex) {
                  ex.printStackTrace();
          }
-            System.out.println("Do you want to add mor to the journal?");
+            System.out.println("Do you want to add more to the journal?");
             inputPrompt = sc.nextLine();
         }
 
