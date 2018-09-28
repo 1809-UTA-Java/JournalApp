@@ -50,5 +50,6 @@ class MyJournal {
      
             } 
         } while (!option.contains(Actions.EXIT.toString()));
+        s.close();
     }
 }
