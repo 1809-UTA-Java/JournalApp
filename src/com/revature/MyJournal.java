@@ -49,6 +49,6 @@ class MyJournal {
                     break;
      
             } 
-        } while (!option.contentEquals("-1"));
+        } while (!option.contains(Actions.EXIT.toString()));
     }
 }
