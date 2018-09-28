@@ -3,6 +3,7 @@ package com.revature;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.File;
 import java.io.IOException;
 
@@ -23,9 +24,11 @@ public class JournalApp {
                 }
                 if (check == 'Y' || check == 'y'){
                     FileInputStream in = new FileInputStream(tmp);
+                    InputStreamReader reader = new InputStreamReader(in);
                     int c; 
-                    while ((c = in.read()) != -1)
-                        System.out.print(c);
+                    while ((c = reader.read()) != -1)
+                        System.out.print((char) c);
+                    System.out.print('\n');
                     in.close();
                 }
                 System.out.println("Do you wish to write to file [Y/n]");
