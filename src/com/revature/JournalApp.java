@@ -1,43 +1,32 @@
 package com.revature;
-
-import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.IOException;
+/**
+ * Jamie Edwards' attempt at the journal program.
+ * This should read from a file, write to a file
+ * and optionally write to a byte stream.
+ */
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.InputStream;
+import java.util.BufferedInputStream;
 
-public class JournalApp{
+class journalApp{
+public static void main (String args[]) {
+    String fileName = "Journal";
+    Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args){
-
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Name your file...");
-        String fileName = scan.nextLine();
-
-        try{
-            FileWriter fw = new FileWriter(fileName);
-            System.out.println("What would you like to write to " + fileName);
-            String user = scan.nextLine();
-            fw.write(user);
-            fw.close(); 
-        } 
-        catch (IOException ex) {
-             ex.printStackTrace();
-        }
-
-        System.out.println("Reading file " + fileName);
-        try (FileReader fr = new FileReader(fileName)) {
-            int i;
-            while ((i = fr.read()) != -1) {
-                System.out.print((char) i);
-            }
-        } 
-        catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } 
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        
+    system.out.println("What do you want to write in your journal today?");
+    system.out.println("Enter EXIT to stop writing.");
+    while(true){try {String inputText = sc.nextLine();
+                try(FileWriter fw = new FileWriter(fileName)){
+                    if(sc.nextLine.equal("EXIT")){break;}
+                    fw.append(inputText);
+                    sytem.out.println("You added " +inputText +" to your journal.");
+                }catch(IOException ex){ex.printStackTrace();}
+            }catch (Exception e){ex.printStackTrace();}
+            finally {sc.close();}
     }
+}
 }
