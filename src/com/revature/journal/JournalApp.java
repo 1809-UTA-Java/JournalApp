@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.File;
+import java.io.BufferedReader;
 
 /**
 * FileIO and ArrayList demo
@@ -21,34 +23,15 @@ import java.util.regex.Matcher;
 class JournalApp {	
 	public static void main (String[] args) {
 		ClearTerminal();
-		ArrayList<String> appendices = new ArrayList<>(); //Am I polluting the string pool?
-		String fileName;
-		String userAppendInput = " ";
 		int menuSelection = Menu();
 		switch (menuSelection) {
-			case 1:
-				do {
-					fileName = GetFileNameFromInput();
-				} while (!IsValidFileName(fileName));
-				try {
-        				FileWriter fw = new FileWriter(fileName, true);
-					System.out.println("Program will append to file line by line. To exit appending, type the sentinel: !~");
-					while (!userAppendInput.equals("!~")) {
-						userAppendInput = GetInput();
-						appendices.add(userAppendInput);				
-					}
-					//Commit appendices to file
-					AppendToFile(fw, appendices);
-					fw.close(); 	
-        			} catch (IOException ex) {
-        				ex.printStackTrace();
-					System.out.println("Not able to create/open the specified file!");
-        			}	
+			case 1: 
+				WriteInJournal();
 				break;
-			case 2:
-		
+			case 2: 
+				ReadJournal();
 				break;
-			case 3: 
+			case 3: //Exit
 				break;
 		}		
 	}
@@ -104,5 +87,49 @@ class JournalApp {
 		}
 		ClearTerminal();
 		return selection;
-	}  	
+	}  
+	public static void WriteInJournal() {
+		ArrayList<String> appendices = new ArrayList<>(); //Am I polluting the string pool?
+		String fileName = GetFileNameFromUser();
+		String userAppendInput = " ";		
+		try {
+        		FileWriter fw = new FileWriter(fileName, true);
+			System.out.println("Program will append to file line by line. To exit appending, type the sentinel: !~");
+			while (!userAppendInput.equals("!~")) {
+				userAppendInput = GetInput();
+				appendices.add(userAppendInput);				
+			}
+			//Commit appendices to file
+			AppendToFile(fw, appendices);
+			fw.close(); 	
+        	} catch (IOException ex) {
+        		ex.printStackTrace();
+			System.out.println("Not able to create/open the specified file!");
+        	}	
+	}
+	public static void ReadJournal() {
+		try {
+			File file = new File(GetFileNameFromUser());
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			StringBuffer stringBuffer = new StringBuffer();
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				stringBuffer.append(line);
+				stringBuffer.append("\n");
+			}
+			fileReader.close();
+			System.out.println("Contents of file:");
+			System.out.println(stringBuffer.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}	
+	public static String GetFileNameFromUser() {
+		String fileName;
+		do {
+			fileName = GetFileNameFromInput();
+		} while (!IsValidFileName(fileName));
+		return fileName;
+	}
 }
