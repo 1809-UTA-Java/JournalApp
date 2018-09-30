@@ -23,18 +23,9 @@ public class JournalApp {
 		boolean isDeciding = true;
 
 		System.out.println();
-		System.out.println("Hi, Let's start by choosing a file or make one up!");
+		System.out.println("Hi, choosing a journal or make one up!");
 
-		// create a file obj, f, and give it a path to the dir, 'junk'
-		File f = new File("junk");
-
-		// find and collect all files in 'junk' dir that ends in 'txt'
-		File[] matchingFiles = f.listFiles(new java.io.FilenameFilter(){
-			public boolean accept(File dir, String name) {
-				//return name.endsWith("txt");
-				return true;
-			}
-		});
+		File [] matchingFiles = findAllJunkFile();
 
 		System.out.println();
 		System.out.println("Your choice of files are: ");
@@ -61,77 +52,51 @@ public class JournalApp {
 				hasChosenOneFromTheList = true;
 			}
 		}
-
+		System.out.println();
 		if (hasChosenOneFromTheList) {
 			try {
-				System.out.println();
-				fileName += ".txt";
-				BufferedReader r = new BufferedReader(new FileReader("junk/"+fileName));
-				String line;
-				StringBuilder sb = new StringBuilder();
-				ArrayList <String> existingLog = new ArrayList<>();
-				while ((line = r.readLine()) != null) {
-					//System.out.println("line: "+line);
-					sb.append(line + "\n");
-					existingLog.add(line);
-				}
-				r.close();
-			
-				System.out.println(sb.toString());
-				//System.out.println("ArrayList: "+existingLog);
+				// open the journal and read the contents
+				ArrayList<String> existingLog = openAndReadFilesContent(fileName);	
+
+				// show the contents of the journal
+				for (Iterator<String> it = existingLog.iterator(); it.hasNext();){
+					System.out.println(" "+ it.next());
+				}		
 
 				System.out.println();
+
+				// prompt user on what to do next
 				System.out.println("Would you like to put an entry? (Press 1 for Yes, 2 for No): ");
 				
 				userEntry = sc.nextLine();
  
 				while (isDeciding) {
-					if (userEntry.equals("1")) {
-						// Re-open the journal with FileWriter to write
-
+					if (userEntry.equals("1")) { 
+						
 						// add .txt postfix in case user didn't
 						if (!fileName.contains(".txt")) {
 							fileName += ".txt";
 						}
-
-						// create the new file in the 'junk' dir
+						// Open with FileWriter(fileName) constructor and
+						// create a new file in the 'junk' dir, then,
+						// populate the new file with the existing log;
+						// another option is to use FileWriter(fileName,true) -
+						// in this case there is no need to re-populate the 
+						// file since write will only append a new entry not
+						// wiping the log, resulting in less code
 						try(FileWriter fw = new FileWriter("junk/"+fileName)) {
 							for (Iterator<String> it = existingLog.iterator(); it.hasNext();){
 								fw.write(it.next()+"\n");
-								//System.out.println("List existing log: "+ it.next());
-							}							
-							
-							System.out.println();
-							System.out.println("Add the current day (ie, Monday) to your new journal entry: ");
-							System.out.println();
-
-							// user entry from console the 
-							userEntry = sc.nextLine();
-							
-							if (userEntry.equals("Monday")  
-									|| userEntry.equals("Tuesday")
-									|| userEntry.equals("Wednesday")
-									|| userEntry.equals("Thursday")
-									|| userEntry.equals("Friday")
-									|| userEntry.equals("Saturday")
-									|| userEntry.equals("Sunday")) {
-								fw.write(userEntry+"\n");
-								System.out.println("Please enter your log entry: ");
-								userEntry = sc.nextLine();
-								fw.write(userEntry+"\n");
-								System.out.println("Nice, your entry was successful, Bye!");
-							} else {
-								System.out.println("Please enter the current day: ");
-								userEntry = sc.nextLine();		
 							}
-							
+							openAndWriteToFile(fw, sc);
+							isDeciding = false; // user finish new entry
 							System.out.println();
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}	
-						isDeciding = false;
+						
 					} else if(userEntry.equals("2")) {
-						isDeciding = false;
+						isDeciding = false; //here user decide to quit the app
 						System.out.println("Great! See ya next time, bye!");
 					} else {
 						System.out.println("Please enter 1 or 2: ");
@@ -143,7 +108,7 @@ public class JournalApp {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} 
-		} else {
+		} else { // user is creating a new journal
 
 			// add .txt postfix in case user didn't
 			if (!fileName.contains(".txt")) {
@@ -152,16 +117,7 @@ public class JournalApp {
 
 			// create the new file in the 'junk' dir
 			try(FileWriter fw = new FileWriter("junk/"+fileName)) {
-				System.out.println();
-				System.out.println("Add an entry to your new journal: ");
-				System.out.println();
-
-				// retrieve the user entry from console the 
-				userEntry = sc.nextLine();
-				fw.write(userEntry);
-				System.out.println();
-				System.out.println("Congrats on your first journal entry, Bye!");
-				System.out.println();
+				openAndWriteToFile(fw, sc);
 			} catch (IOException ex) {
 			    ex.printStackTrace();
 			}			
@@ -169,4 +125,69 @@ public class JournalApp {
 
 		sc.close();
 	}
+
+	static File [] findAllJunkFile() {
+		// create a file obj, f, and give it a path to the dir, 'junk'
+		File f = new File("junk");
+
+		// find and collect all files in 'junk' dir that ends in 'txt' or not
+		File[] matchingFiles = f.listFiles(new java.io.FilenameFilter(){
+			public boolean accept(File dir, String name) {
+				//return name.endsWith("txt");
+				return true; // or just return all files it sees
+			}
+		});
+		return matchingFiles;
+	}
+
+	static ArrayList<String> openAndReadFilesContent (String fileName) throws IOException {
+		ArrayList <String> contents = new ArrayList<>();
+		String line;
+		BufferedReader br = new BufferedReader(new FileReader("junk/"+(fileName+=".txt")));
+		while ((line = br.readLine()) != null) {;
+			contents.add(line);
+		}
+		br.close();		
+		return contents;
+	}
+
+	static boolean isDayCorrectlyEntered (String u, boolean b, FileWriter f, Scanner s) throws IOException {
+		
+		if (u.equals("Monday")  
+				|| u.equals("Tuesday")
+				|| u.equals("Wednesday")
+				|| u.equals("Thursday")
+				|| u.equals("Friday")
+				|| u.equals("Saturday")
+				|| u.equals("Sunday")) {
+			f.write(u+"\n");
+			System.out.println("Please enter your log entry: ");
+			u = s.nextLine();
+			f.write(u+"\n");
+			b = false; // user finally spell days correctly
+			
+			System.out.println("Nice, your entry was successful, Bye!");
+		} else {
+			System.out.println("Please enter the current day: ");
+			u = s.nextLine();		
+		}
+
+		return b;
+	}							
+
+	static void openAndWriteToFile(FileWriter f, Scanner s) throws IOException {	
+		
+		System.out.println();
+		System.out.println("Add the current day (ie, Monday) to your journal entry: ");
+		System.out.println();
+
+		// user entry from console the 
+		String userInput = s.nextLine();
+		boolean stillValidatingDay = true;
+		while (stillValidatingDay){
+			stillValidatingDay = isDayCorrectlyEntered(userInput,stillValidatingDay,f,s);
+		}
+	}
+
+
 }

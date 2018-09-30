@@ -1,8 +1,6 @@
 Saturday
-Day off, weekend, sleep in
-Sunday
-Sunday - Football, park, bbq, oh - don't forget the laundry
-Monday
-Mock interview, quiz, QC and start Database course
+Learn Java Basic
 Tuesday
-Learn Stored Procedure
+Demo OOP Concept
+Wednesday
+Learn about Collections
