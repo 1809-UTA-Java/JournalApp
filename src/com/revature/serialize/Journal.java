@@ -3,9 +3,9 @@ package com.revature.serialize;
 import java.util.*;
 import java.io.Serializable;
 /**
-* A journal that serialized an object 
-* SerializableJournalApp has acontent that is  
-* contained in a Hashtable container
+* Journal is a serializable object 
+* that has content that is wrapped
+* in a Hashtable container
 *
 * @author Leonardo De Leon
 *

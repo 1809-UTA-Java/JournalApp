@@ -11,6 +11,21 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.util.*;
 
+/**
+ * JournalApp is a simple app that allows user 
+ * to create a journal entry and save it to a 
+ * .txt file in the 'junk' dir.  At bare min, it
+ * will ask user to provide the current day and a log
+ * entry.  
+ * 
+ * The app is currently design to only add 
+ * one entry at a time.  It uses the Scanner
+ * and the Collection API in the java.util.*;
+ * package and a host of IO API in the java.io.*;
+ * package.
+ * 
+ * @author Leonardo De Leon
+ */
 public class JournalApp {
 
 	public static void main(String[] args) {
@@ -23,7 +38,7 @@ public class JournalApp {
 		boolean isDeciding = true;
 
 		System.out.println();
-		System.out.println("Hi, choosing a journal or make one up!");
+		System.out.println("Hi, choose a journal or make one up!");
 
 		File [] matchingFiles = findAllJunkFile();
 

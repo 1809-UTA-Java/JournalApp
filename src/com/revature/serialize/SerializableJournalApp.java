@@ -5,6 +5,14 @@ import java.io.ObjectOutputStream;
 import java.io.*;
 import java.util.*;
 
+/**
+ * SerializableJournalApp is the serializable
+ * version of the JournalApp.  It serializes the
+ * Journal obj and stores bytecode in a filename 
+ * called ser-journal-app in the 'junk' dir. 
+ * 
+ * @author Leoanrdo De Leon
+ */
 public  class SerializableJournalApp {
 
     public static void main (String [] args) {
